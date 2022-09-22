@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Certificates Trust Verifier</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+</head>
+<body>
+    <div class="container text-center mt-5">
+        <div class="row">
+            <div class="col-12">
+                <h1>Digital Certificates Trust Verifier</h1>
+            </div>
+        </div>
+    <div class="row mt-5">
+        <div class="col-7">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="[Ingresar URL a verificar ...]" aria-label="Recipient's username with two button addons">
+            </div>
+        </div>
+        <div class="col-2">
+            <a href="#" class="btn btn-primary btn-md">Verificar</a>
+        </div>
+        <div class="col-3">
+            <a href="#" class="btn btn-secondary btn-md">Cargar en lote</a>
+        </div>
+    </div>
+
+    <div class="row section-trust-store">
+        <div class="col-4">
+            <a href="#" class="btn btn-primary btn-md">Ver Mozilla Trust Store</a>
+        </div>
+        <div class="col-4">
+            <a href="#" class="btn btn-primary btn-md">Ver Microsot Trust Store</a>
+        </div>
+        <div class="col-4">
+            <a href="#" class="btn btn-primary btn-md">Ver Google Trust Store</a>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF" crossorigin="anonymous"></script>
+</body>
+</html>
