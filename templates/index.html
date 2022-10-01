@@ -32,7 +32,16 @@
         </div>
     </form>
 
-    {% if urls %}
+    <div class="mt-5">
+        {%for message in get_flashed_messages() %}
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" data-dismiss="alert" class="close">&times;</button>
+                {{message}}
+            </div>
+        </div>
+    {%endfor%}
+    <div class="text-center">
+        {% if urls %}
         {% for url in urls %}
             <p>{{url}}</p>
         {%endfor%}
@@ -40,6 +49,7 @@
     {% if url %}
         <p>{{url}}</p>
     {%endif%}
+    </div>
     <div class="row section-trust-store">
         <div class="col-4">
             <a href="#" class="btn btn-primary btn-md">Ver Mozilla Trust Store</a>

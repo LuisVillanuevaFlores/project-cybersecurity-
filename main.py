@@ -1,12 +1,12 @@
 from crypt import methods
 import os
-from flask import Flask, render_template, session, redirect
+from flask import Flask, flash, render_template, session, redirect
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed
 from flask_bootstrap import Bootstrap
 from wtforms.fields import URLField, SubmitField, FileField
 from werkzeug.utils import secure_filename
-
+import re
 
 from flask_wtf import FlaskForm
 from wtforms import SubmitField
@@ -25,6 +25,10 @@ class URLForm(FlaskForm):
     verify = SubmitField('Cargar')
 
 
+def verified_https(url):
+    url_pattern = "^https:\\/\\/(?:www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$"
+    return re.match(url_pattern, url)
+
 @app.route('/', methods=['GET', 'POST'])
 def hello():
     login_form = URLForm()
@@ -40,11 +44,17 @@ def hello():
         file = login_form.file.data
         session.clear()
         urls = []
+        if url:
+            if not verified_https(url):
+                flash("La URL no satisface los requisitos, revisa que tenga el formato https")
         if file:
             file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),secure_filename(file.filename)))
             with open(file.filename,'r') as file:
                 for line in file:
-                    urls.append(line)
+                    if not verified_https(line):
+                        flash(f'La url {line} no satisface los requisitos, revisa que tenga el formato https')
+                    else:
+                        urls.append(line)
         session['urls']=urls
         session['url'] = url
         return redirect('/')
