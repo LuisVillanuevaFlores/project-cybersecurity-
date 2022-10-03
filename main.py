@@ -1,5 +1,6 @@
 from crypt import methods
 import os
+import ssl
 from flask import Flask, flash, render_template, session, redirect
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileAllowed
@@ -11,7 +12,7 @@ import re
 from flask_wtf import FlaskForm
 from wtforms import SubmitField
 from flask_wtf.file import FileField, FileAllowed
-
+import OpenSSL
 
 app = Flask(__name__,
  template_folder='./templates',
@@ -28,6 +29,14 @@ class URLForm(FlaskForm):
 def verified_https(url):
     url_pattern = "^https:\\/\\/(?:www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$"
     return re.match(url_pattern, url)
+
+def get_trust_level(url):
+    cert = ssl.get_server_certificate(('www.viabcp.com', 443))
+    print(cert)
+    x509 = OpenSSL.crypto.load_certificate(OpenSSL.crypto.FILETYPE_PEM, cert)
+    # print(x509.get_subject().get_components())
+    print(x509.get_issuer().get_components())
+    return
 
 @app.route('/', methods=['GET', 'POST'])
 def hello():
@@ -58,6 +67,8 @@ def hello():
         session['urls']=urls
         session['url'] = url
         return redirect('/')
+    trust_level = get_trust_level(url)
+    print(trust_level)
     return render_template('index.html', **context)
 
 if __name__=='__main__':
