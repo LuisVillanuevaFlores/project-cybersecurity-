@@ -16,49 +16,50 @@
                 <h1>Digital Certificates Trust Verifier</h1>
             </div>
         </div>
-    <form action="{{url_for('hello')}}" method="POST" enctype="multipart/form-data">
-        <div class="row mt-5">
-            <div class="col-7">
-                <div class="form-group">
-                    {{login_form.url (class="form-control", placeholder="[Ingresar URL a verificar ...]")}}
+        <form action="{{url_for('hello')}}" method="POST" enctype="multipart/form-data">
+            <div class="row mt-5 form-basic">
+                <div class="col-lg-7 col-sm-12 pb-3">
+                    <div class="form-group">
+                        {{login_form.url (class="form-control", placeholder="[Ingresar URL a verificar ...]")}}
+                    </div>
+                </div>
+                <div class="col-lg-2 col-sm-3">
+                    {{login_form.verify (class="btn btn-primary btn-md")}}
+                </div>
+                <div class="col-lg-3 col-sm-9">
+                    {{login_form.file (class="btn btn-secondary btn-sm button-file")}}
                 </div>
             </div>
-            <div class="col-2">
-                {{login_form.verify (class="btn btn-primary btn-md")}}
-            </div>
-            <div class="col-3">
-                {{login_form.file (class="btn btn-secondary btn-md")}}
-            </div>
-        </div>
-    </form>
+        </form>
 
-    <div class="mt-5">
-        {%for message in get_flashed_messages() %}
-            <div class="alert alert-danger alert-dismissible">
-                <button type="button" data-dismiss="alert" class="close">&times;</button>
-                {{message}}
+        <div class="mt-5">
+            {%for message in get_flashed_messages() %}
+                <div class="alert alert-danger alert-dismissible">
+                    <button type="button" data-dismiss="alert" class="close">&times;</button>
+                    {{message}}
+                </div>
+            {%endfor%}
+        </div>
+        <div class="text-center">
+            {% if urls %}
+                {% for url in urls %}
+                    <p>{{url}}</p>
+                {%endfor%}
+            {%endif%}
+            {% if url %}
+                <p>{{url}}</p>
+            {%endif%}
+        </div>
+        <div class="row section-trust-store text-center">
+            <div class="col-4">
+                <a href="#" class="btn btn-primary btn-md">Ver Mozilla Trust Store</a>
             </div>
-        </div>
-    {%endfor%}
-    <div class="text-center">
-        {% if urls %}
-        {% for url in urls %}
-            <p>{{url}}</p>
-        {%endfor%}
-    {%endif%}
-    {% if url %}
-        <p>{{url}}</p>
-    {%endif%}
-    </div>
-    <div class="row section-trust-store">
-        <div class="col-4">
-            <a href="#" class="btn btn-primary btn-md">Ver Mozilla Trust Store</a>
-        </div>
-        <div class="col-4">
-            <a href="#" class="btn btn-primary btn-md">Ver Microsot Trust Store</a>
-        </div>
-        <div class="col-4">
-            <a href="#" class="btn btn-primary btn-md">Ver Google Trust Store</a>
+            <div class="col-4">
+                <a href="#" class="btn btn-primary btn-md">Ver Microsot Trust Store</a>
+            </div>
+            <div class="col-4">
+                <a href="#" class="btn btn-primary btn-md">Ver Google Trust Store</a>
+            </div>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
