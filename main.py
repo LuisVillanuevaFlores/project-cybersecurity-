@@ -30,7 +30,7 @@ def verified_https(url):
     return re.match(url_pattern, url)
 
 @app.route('/', methods=['GET', 'POST'])
-def hello():
+def index():
     login_form = URLForm()
     urls = session.get('urls')
     url = session.get('url')
