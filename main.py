@@ -29,6 +29,21 @@ def verified_https(url):
     url_pattern = "^https:\\/\\/(?:www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$"
     return re.match(url_pattern, url)
 
+def validate_file(file):
+    urls = []
+    if file.content_type == 'text/plain':
+        file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),secure_filename(file.filename)))
+        with open(file.filename,'r') as file:
+            for line in file:
+                if not verified_https(line):
+                    flash(f'La url {line} no satisface los requisitos, revisa que tenga el formato https')
+                else:
+                    urls.append(line)
+            return urls
+    else:
+        flash(f'El archivo {file.filename} no es un archivo de texto plano .txt')
+
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     login_form = URLForm()
@@ -43,21 +58,11 @@ def index():
         url = login_form.url.data
         file = login_form.file.data
         session.clear()
-        urls = []
         if url:
             if not verified_https(url):
                 flash("La URL no satisface los requisitos, revisa que tenga el formato https")
         if file:
-            if file.content_type == 'text/plain':
-                file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),secure_filename(file.filename)))
-                with open(file.filename,'r') as file:
-                    for line in file:
-                        if not verified_https(line):
-                            flash(f'La url {line} no satisface los requisitos, revisa que tenga el formato https')
-                        else:
-                            urls.append(line)
-            else:
-                flash(f'El archivo {file.filename} no es un archivo de texto plano .txt')
+            urls = validate_file(file)
         session['urls']=urls
         session['url'] = url
         return redirect('/')
