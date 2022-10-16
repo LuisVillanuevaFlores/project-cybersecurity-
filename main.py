@@ -40,6 +40,8 @@ def verified_https(url):
 
 
 def get_relevant_certificate_data(url):
+    if url in [None, '']:
+        return None
     host = re.search(r'https://([^/?:]*)', url).group(1)
     try:
         connection = tls.TLSSocket(host, 443, session=tls.TLSSession(manual_validation=True))
@@ -108,7 +110,7 @@ def load_certificates():
         return
     CERTIFICATES.update({
         'mozilla_certificates': file_to_certificate_object_list('mozilla_certificates.txt'),
-        'chrome_certificates': file_to_certificate_object_list(),
+        'chrome_certificates': file_to_certificate_object_list('chrome_certificates.txt'),
         'edge_certificates': file_to_certificate_object_list(),
         'has_certificates': True,
     })
