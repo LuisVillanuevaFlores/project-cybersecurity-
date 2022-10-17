@@ -142,7 +142,7 @@ def show_trusts(navegator):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     login_form = URLForm()
-    urls = [session.get('urls')]
+    urls = session.get('urls') if type(session.get('urls')) is list else [session.get('urls')]
     context = {
         'login_form': login_form,
         'urls':urls,
@@ -162,6 +162,7 @@ def index():
         trust_level = get_relevant_certificate_data(each_url)
         print(trust_level)
     return render_template('index.html', **context)
+
 
 if __name__=='__main__':
     app.config['WTF_CSRF_ENABLED']= False
