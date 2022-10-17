@@ -62,7 +62,7 @@ def get_relevant_certificate_data(url):
         certification_chain = validator.validate_tls(connection.hostname)
     except Exception as e:
         flash(f'No se encontró un certificado válido para la url: {url}, revisarla')
-        return
+        return certificate_data
     root_certificate = certification_chain[0]
 
     for mozilla_certificate in CERTIFICATES.get('mozilla_certificates'):
