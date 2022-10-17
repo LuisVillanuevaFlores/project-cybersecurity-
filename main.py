@@ -117,10 +117,14 @@ def load_certificates():
     CERTIFICATES.update({
         'mozilla_certificates': file_to_certificate_object_list('mozilla_certificates.txt'),
         'chrome_certificates': file_to_certificate_object_list('chrome_certificates.txt'),
-        'edge_certificates': file_to_certificate_object_list(),
+        'edge_certificates': file_to_certificate_object_list('edge_certificates.txt'),
         'has_certificates': True,
     })
-
+    
+@app.route('/index2')
+def signout():
+    session.clear()
+    return redirect('/')
 
 @app.route('/show_trust/<navegator>')
 def show_trusts(navegator):
