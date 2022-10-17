@@ -37,7 +37,29 @@
             </div>
         </div>
         <div class="row mt-4">
-            
+            {%for certificate in c %}
+            <div class="col-2 mb-5">
+                {{certificate.subject.human_friendly}}
+            </div>
+            <div class="col-2">
+                {{certificate.not_valid_before}} {{certificate.not_valid_after}}
+            </div>
+            <div class="col-2">
+                {{certificate.public_key.algorithm}} {{certificate.public_key.bit_size}}
+            </div>
+            <div class="col-2">
+                {{certificate.key_usage_value.native}}
+            </div>
+            <div class="col-2">
+                {{certificate.sha1_fingerprint}}
+            </div>
+            <div class="col-2">
+                {{certificate.serial_number}}
+            </div>
+            {%endfor%}
+        </div>
+        <div class="col-12 mb-5">
+            <a href="{{url_for('index')}}" class="btn btn-primary btn-md">Ir al inicio</a>
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
