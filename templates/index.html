@@ -52,13 +52,13 @@
         </div>
         <div class="row section-trust-store text-center">
             <div class="col-4">
-                <a href="#" class="btn btn-primary btn-md">Ver Mozilla Trust Store</a>
+                <a href="{{url_for('show_trusts', navegator='mozilla')}}" class="btn btn-primary btn-md">Ver Mozilla Trust Store</a>
             </div>
             <div class="col-4">
-                <a href="#" class="btn btn-primary btn-md">Ver Microsot Trust Store</a>
+                <a href="{{url_for('show_trusts', navegator='chrome')}}" class="btn btn-primary btn-md">Ver Microsot Trust Store</a>
             </div>
             <div class="col-4">
-                <a href="#" class="btn btn-primary btn-md">Ver Google Trust Store</a>
+                <a href="{{url_for('show_trusts', navegator='edge')}}" class="btn btn-primary btn-md">Ver Google Trust Store</a>
             </div>
         </div>
     </div>

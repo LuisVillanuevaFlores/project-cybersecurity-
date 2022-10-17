@@ -116,30 +116,46 @@ def load_certificates():
     })
 
 
+@app.route('/show_trust/<navegator>')
+def show_trusts(navegator):
+    print(navegator)
+    if navegator == 'mozilla':
+        c = CERTIFICATES.get('mozilla_certificates')
+    elif navegator == 'chrome':
+        c = CERTIFICATES.get('chrome_certificates')
+    else:
+        c = CERTIFICATES.get('edge_certificates')
+    for i in c:
+        print(i.subject.human_friendly)
+        print(i.serial_number)
+        print(i.not_valid_before, i.not_valid_after)
+        print(i.public_key.algorithm, i.public_key.bit_size)
+        print(i.key_usage_value.native)
+    return render_template('show_trust_by_navegator.html', navegator=navegator, c = c)
+
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     login_form = URLForm()
-    urls = session.get('urls')
-    url = session.get('url')
+    urls = [session.get('urls')]
     context = {
         'login_form': login_form,
         'urls':urls,
-        'url': url
     }
     if login_form.validate_on_submit():
-        url = login_form.url.data
+        urls = login_form.url.data
         file = login_form.file.data
         session.clear()
-        if url:
-            if not verified_https(url):
+        if urls:
+            if not verified_https(urls):
                 flash("La URL no satisface los requisitos, revisa que tenga el formato https")
         if file:
             urls = validate_file(file)
         session['urls']=urls
-        session['url'] = url
         return redirect('/')
-    trust_level = get_relevant_certificate_data(url)
-    print(trust_level)
+    for each_url in urls:
+        trust_level = get_relevant_certificate_data(each_url)
+        print(trust_level)
     return render_template('index.html', **context)
 
 if __name__=='__main__':
