@@ -56,6 +56,8 @@ def get_relevant_certificate_data(url):
         chrome_trust_level=1,
         edge_trust_level=1,
     )
+    
+
     validator = CertificateValidator(connection.certificate, connection.intermediates)
 
     try:
@@ -82,7 +84,6 @@ def get_relevant_certificate_data(url):
             })
     certificate_data['name'] = root_certificate.subject.human_friendly
     return certificate_data
-
 
 def validate_file(file):
     urls = []
@@ -116,10 +117,14 @@ def load_certificates():
     CERTIFICATES.update({
         'mozilla_certificates': file_to_certificate_object_list('mozilla_certificates.txt'),
         'chrome_certificates': file_to_certificate_object_list('chrome_certificates.txt'),
-        'edge_certificates': file_to_certificate_object_list(),
+        'edge_certificates': file_to_certificate_object_list('edge_certificates.txt'),
         'has_certificates': True,
     })
-
+    
+@app.route('/index2')
+def signout():
+    session.clear()
+    return redirect('/')
 
 @app.route('/show_trust/<navegator>')
 def show_trusts(navegator):
@@ -170,7 +175,11 @@ def index():
     return render_template('index.html', **context)
 
 
+
+
+
 if __name__=='__main__':
+    app.jinja_env.globals.update(get_relevant=get_relevant_certificate_data)
     app.config['WTF_CSRF_ENABLED']= False
     app.config['SESSION_TYPE'] = 'filesystem'
     app.config['ENV']='development'

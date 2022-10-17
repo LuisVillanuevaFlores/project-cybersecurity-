@@ -16,48 +16,59 @@
                 <h1> {{navegator.capitalize()}} Trust Store Certificate</h1>
             </div>
         </div>
-        <div class="row mt-5">
-            <div class="col-2">
-                <h5>Nombre</h5>
-            </div>
-            <div class="col-2">
-                <h5>Validez</h5>
-            </div>
-            <div class="col-2">
-                <h5>Llave Pública</h5>
-            </div>
-            <div class="col-2">
-                <h5>Usos de la llave</h5>
-            </div>
-            <div class="col-2">
-                <h5>SHA-1</h5>
-            </div>
-            <div class="col-2">
-                <h5>Serial Number</h5>
-            </div>
-        </div>
-        <div class="row mt-4">
-            {%for certificate in c %}
-            <div class="col-2 mb-5">
-                {{certificate.subject.human_friendly}}
-            </div>
-            <div class="col-2">
-                {{certificate.not_valid_before}} {{certificate.not_valid_after}}
-            </div>
-            <div class="col-2">
-                {{certificate.public_key.algorithm}} {{certificate.public_key.bit_size}}
-            </div>
-            <div class="col-2">
-                {{certificate.key_usage_value.native}}
-            </div>
-            <div class="col-2">
-                {{certificate.sha1_fingerprint}}
-            </div>
-            <div class="col-2">
-                {{certificate.serial_number}}
-            </div>
-            {%endfor%}
-        </div>
+        <div class="table table-responsive mt-3">
+            <table class="table table-responsive table-bordered table-fixed">
+                <thead>
+                <tr >
+                <th scope="col" style="min-width: 200px;">
+                
+                    <h5 class="fw-bold text-decoration-underline">Nombre</h5>
+                
+                </th>
+                <th scope="col" style="min-width: 200px;">
+                
+                    <h5 class="fw-bold text-decoration-underline">Validez</h5>
+                    <p class="fw-bold">Desde - Hasta</p>
+                
+                </th>
+                <th scope="col" style="min-width: 200px;">
+                
+                    <h5 class="fw-bold text-decoration-underline">Llave Pública</h5>
+                    <p class="fw-bold">Algoritmo - Tamaño</p>
+                
+                </th>
+                <th scope="col" style="min-width: 200px;">
+                
+                    <h5 class="fw-bold text-decoration-underline">Usos de la llave</h5>
+                
+                 </th>
+                <th scope="col" style="min-width: 200px;">
+                
+                    <h5 class="fw-bold text-decoration-underline">SHA-1</h5>
+                    
+                 </th>
+                <th scope="col" style="min-width: 200px;">
+                
+                    <h5 class="fw-bold text-decoration-underline">Serial Number</h5>
+                
+                </th>
+                </tr>
+                </thead>
+                <tbody>
+                    {%for certificate in c %}
+                    <tr>
+                        <th scope="row">{{certificate.subject.human_friendly.replace('; ', ', ').split(",",1)[0]}}</th>
+                        <td >{{certificate.not_valid_before.date()}} / {{certificate.not_valid_after.date()}}</td>
+                        <td >{{certificate.public_key.algorithm.upper()}} - {{certificate.public_key.bit_size}}</td>
+                        <td >{{certificate.key_usage_value.native}}</td>
+                        <td >{{certificate.sha1_fingerprint}}</td>
+                        <td >{{certificate.serial_number}}</td>
+                    </tr>
+                    {%endfor%}
+                </tbody>
+
+            </table>
+        </div>  
         <div class="col-12 mb-5">
             <a href="{{url_for('index')}}" class="btn btn-primary btn-md">Ir al inicio</a>
         </div>
