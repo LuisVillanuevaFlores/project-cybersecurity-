@@ -56,6 +56,8 @@ def get_relevant_certificate_data(url):
         chrome_trust_level=1,
         edge_trust_level=1,
     )
+    
+
     validator = CertificateValidator(connection.certificate, connection.intermediates)
 
     try:
@@ -82,7 +84,6 @@ def get_relevant_certificate_data(url):
             })
     certificate_data['name'] = root_certificate.subject.human_friendly
     return certificate_data
-
 
 def validate_file(file):
     urls = []
@@ -170,7 +171,11 @@ def index():
     return render_template('index.html', **context)
 
 
+
+
+
 if __name__=='__main__':
+    app.jinja_env.globals.update(get_relevant=get_relevant_certificate_data)
     app.config['WTF_CSRF_ENABLED']= False
     app.config['SESSION_TYPE'] = 'filesystem'
     app.config['ENV']='development'

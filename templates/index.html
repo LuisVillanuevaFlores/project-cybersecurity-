@@ -42,13 +42,65 @@
         </div>
         <div class="text-center">
             {% if urls %}
-                {% for url in urls %}
-                    <p>{{url}}</p>
+                <div class="row mt-3">
+                    <div class="col-lg-3"></div>
+                    <div class="col-lg-3" style="display:inline-block;vertical-align:top;"> 
+                        <span class="fw-bold">Microsoft Edge</span>
+                        <img src='/static/images/edge.png' width="20" height="20" />
+                    </div>
+                    <div class="col-lg-3"> 
+                        <span class="fw-bold">Google Chrome</span>
+                        <img src='/static/images/chrome.png' width="30" height="20" />
+                    </div>
+                    <div class="col-lg-3"> 
+                        <span class="fw-bold">Mozilla Firefox</span>
+                        <img src='/static/images/mozilla.png' width="20" height="20" />
+                    </div>
+                </div>
+                {% for url in urls%}
+                <div class="row mt-3">
+                    <div class="col-lg-3"><span class="fw-bold text-decoration-underline" >{{url}}</span></div>
+                    <div class="col-lg-3" style="display:inline-block;vertical-align:top;">
+                        {%set x=get_relevant(url)%}
+                        {%for a in range(1, 4)%}
+                            {%if a == x['edge_trust_level'] and x['in_edge']==True%}
+                                <button class="button{{x['in_edge']}} trust-{{x['edge_trust_level']}}"></button>
+                            {% else %}   
+                                <button class="button{{x['in_edge']}}"></button>
+                            {%endif%}
+                            {%endfor%}
+                    </div>
+                    <div class="col-lg-3"> 
+                        {%for a in range(1, 4)%}
+                            {%if a == x['chrome_trust_level'] and x['in_chrome']==True %}
+                                <button class="button{{x['in_chrome']}} trust-{{x['chrome_trust_level']}}"></button>
+                            {% else %}   
+                                <button class="button{{x['in_chrome']}} "></button></button>
+                            {%endif%}
+                            {%endfor%}
+                    </div>
+                    <div class="col-lg-3">
+                        {%for a in range(1, 4)%}
+                            {%if a == x['mozilla_trust_level'] and x['in_mozilla']==True %}
+                                <button class="button{{x['in_mozilla']}} trust-{{x['mozilla_trust_level']}}"></button>
+                            {% else %}   
+                                <button class="button{{x['in_mozilla']}}"></button>
+                            {%endif%}
+                            {%endfor%}
+                        
+                       
+                        
+                    </div>
+                </div>
                 {%endfor%}
+                <div class="col-12 mt-5 mb-5">
+                    <a href="{{url_for('index')}}" class="btn btn-primary btn-md">Limpiar todo</a>
+                </div>
             {%endif%}
             {% if url %}
                 <p>{{url}}</p>
             {%endif%}
+            
         </div>
         <div class="row section-trust-store text-center">
             <div class="col-4">

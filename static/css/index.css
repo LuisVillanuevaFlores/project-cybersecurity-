@@ -11,3 +11,35 @@
 .button-file{
     width: 19rem;
 }
+
+.buttonTrue {
+    background-color: white; /* Green */
+    border: 2px solid black;
+    color: black;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    pointer-events: none;
+    border-radius: 50%;
+  }
+
+.buttonFalse {
+background-color: white; /* Green */
+border: 2px solid red;
+color: black;
+padding: 20px;
+text-align: center;
+text-decoration: none;
+display: inline-block;
+font-size: 16px;
+margin: 4px 2px;
+pointer-events: none;
+border-radius: 50%;
+}
+
+.trust-1{background-color: green;}
+.trust-2{background-color: green;}
+.trust-3{background-color: green;}

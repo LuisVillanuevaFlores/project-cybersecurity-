@@ -39,10 +39,11 @@
         <div class="row mt-4">
             {%for certificate in c %}
             <div class="col-2 mb-5">
-                {{certificate.subject.human_friendly}}
+                
+                {{certificate.subject.human_friendly.replace('; ', ', ').split(",",1)[0]}}
             </div>
             <div class="col-2">
-                {{certificate.not_valid_before}} {{certificate.not_valid_after}}
+                {{certificate.not_valid_before.date()}} {{certificate.not_valid_after.date()}}
             </div>
             <div class="col-2">
                 {{certificate.public_key.algorithm}} {{certificate.public_key.bit_size}}
