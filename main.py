@@ -1,3 +1,4 @@
+from distutils import errors
 import os
 import re
 
@@ -57,7 +58,11 @@ def get_relevant_certificate_data(url):
     )
     validator = CertificateValidator(connection.certificate, connection.intermediates)
 
-    certification_chain = validator.validate_tls(connection.hostname)
+    try:
+        certification_chain = validator.validate_tls(connection.hostname)
+    except Exception as e:
+        flash(f'No se encontró un certificado válido para la url: {url}, revisarla')
+        return
     root_certificate = certification_chain[0]
 
     for mozilla_certificate in CERTIFICATES.get('mozilla_certificates'):
@@ -154,6 +159,7 @@ def index():
         if urls:
             if not verified_https(urls):
                 flash("La URL no satisface los requisitos, revisa que tenga el formato https")
+                return redirect('/')
         if file:
             urls = validate_file(file)
         session['urls']=urls

@@ -1,5 +1,5 @@
-httpss://www.google.com/
-https://www.facebook.com/
+httpss://www.gossogle.com/
+https://www.faceboo.com/
 http://stackoverflow.com/
 https://github.com/
 https://bitbucket.org/
