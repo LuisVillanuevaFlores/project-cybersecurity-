@@ -175,14 +175,13 @@ def index():
     return render_template('index.html', **context)
 
 
-
+app.jinja_env.globals.update(get_relevant=get_relevant_certificate_data)
+app.config['WTF_CSRF_ENABLED']= False
+app.config['SESSION_TYPE'] = 'filesystem'
+app.config['SECRET_KEY']='KEY_SECRET'
+load_certificates()
 
 
 if __name__=='__main__':
-    app.jinja_env.globals.update(get_relevant=get_relevant_certificate_data)
-    app.config['WTF_CSRF_ENABLED']= False
-    app.config['SESSION_TYPE'] = 'filesystem'
     app.config['ENV']='development'
-    app.config['SECRET_KEY']='KEY_SECRET'
-    load_certificates()
     app.run(debug=True)
