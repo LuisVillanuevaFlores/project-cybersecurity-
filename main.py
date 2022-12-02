@@ -135,17 +135,6 @@ def show_trusts(navegator):
         c = CERTIFICATES.get('chrome_certificates')
     else:
         c = CERTIFICATES.get('edge_certificates')
-    for i in c:
-        try:
-            print("-"*10)
-            print(i.subject.human_friendly)
-            print(i.serial_number)
-            print(i.not_valid_before, i.not_valid_after)
-            print(i.public_key.algorithm, i.public_key.bit_size)
-            print(i.sha1_fingerprint)
-            print(i.key_usage_value.native)
-        except Exception as e:
-            print("ERROR")
     return render_template('show_trust_by_navegator.html', navegator=navegator, c = c)
 
 
