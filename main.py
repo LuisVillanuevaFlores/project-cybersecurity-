@@ -36,14 +36,18 @@ class URLForm(FlaskForm):
 
 
 def verified_https(url):
-    url_pattern = "^https:\\/\\/(?:www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$"
-    return re.match(url_pattern, url)
-
+    url_pattern = "^(http|https):\\/\\/(?:www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$"
+    match = re.match(url_pattern, url)
+    if match:
+        print(match)
+        return match
+    else:
+        flash(f'La URL {url} no es de un sitio válido')
 
 def get_relevant_certificate_data(url):
     if url in [None, '']:
         return None
-    host = re.search(r'https://([^/?:]*)', url).group(1)
+    host = re.search(r'https?://([^/?:]*)', url).group(1)
     try:
         connection = tls.TLSSocket(host, 443, session=tls.TLSSession(manual_validation=True))
     except Exception as e:
@@ -56,7 +60,6 @@ def get_relevant_certificate_data(url):
         chrome_trust_level=1,
         edge_trust_level=1,
     )
-    
 
     validator = CertificateValidator(connection.certificate, connection.intermediates)
 
@@ -91,9 +94,8 @@ def validate_file(file):
         file.save(os.path.join(os.path.abspath(os.path.dirname(__file__)),secure_filename(file.filename)))
         with open(file.filename,'r') as file:
             for line in file:
-                if not verified_https(line):
-                    flash(f'La url {line} no satisface los requisitos, revisa que tenga el formato https')
-                else:
+                # You can verified if a url is https format with verified_https function
+                if verified_https(line):
                     urls.append(line)
             return urls
     else:
@@ -120,7 +122,7 @@ def load_certificates():
         'edge_certificates': file_to_certificate_object_list('edge_certificates.txt'),
         'has_certificates': True,
     })
-    
+
 @app.route('/index2')
 def signout():
     session.clear()
@@ -128,7 +130,6 @@ def signout():
 
 @app.route('/show_trust/<navegator>')
 def show_trusts(navegator):
-    print(navegator)
     if navegator == 'mozilla':
         c = CERTIFICATES.get('mozilla_certificates')
     elif navegator == 'chrome':
@@ -141,26 +142,22 @@ def show_trusts(navegator):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     login_form = URLForm()
-    urls = session.get('urls') if type(session.get('urls')) is list else [session.get('urls')]
+    urls = session.get('urls') if session.get('urls') else []
     context = {
         'login_form': login_form,
         'urls':urls,
     }
     if login_form.validate_on_submit():
-        urls = login_form.url.data
         file = login_form.file.data
-        session.clear()
-        if urls:
-            if not verified_https(urls):
-                flash("La URL no satisface los requisitos, revisa que tenga el formato https")
-                return redirect('/')
-        if file:
-            urls = validate_file(file)
+        url = login_form.url.data
+        if url and verified_https(url):
+            urls.append(url)
+        elif file:
+            urls += validate_file(file)
+        else:
+            flash('Debe ingresar una URL o cargar un archivo con URLS')
         session['urls']=urls
         return redirect('/')
-    for each_url in urls:
-        trust_level = get_relevant_certificate_data(each_url)
-        print(trust_level)
     return render_template('index.html', **context)
 
 
