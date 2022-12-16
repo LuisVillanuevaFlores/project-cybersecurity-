@@ -107,60 +107,60 @@
                     </div>
                 
                 
-                <div class="col-lg-3">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Ver cadena de certificación</button>
-                </div>
+                    <div class="col-lg-3">
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Ver cadena de certificación</button>
+                    </div>
 
-                    <div class="modal" id="myModal" role="dialog">
-                        <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                            <h4 class="modal-title">Informacion de {{ url }}</h4>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    
-                            </div>
-                            <div class="modal-body">
-                            
-                            <div class="form-row">
-                                
-                                <div class="container">
-                                <table class="table">
-                                    <thead class="thead-dark">
-                                    <tr>
-                                        <th scope="col">Nombre</th>
-                                        <th scope="col">Validez</th>
-                                        <th scope="col">Llave Pública</th>
-                                        <th scope="col">Usos de la llave</th>
-                                        <th scope="col">SHA-1</th>
-                                        <th scope="col">Serial Number</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for certificado in x['cadena']%}
-                                        <tr class="text-break">
-                                            
-                                            <td>{{ certificado['name'] }}</td>
-                                            <td>{{ certificado['desde'] }}- {{ certificado['hasta'] }}</td>
-                                            <td>{{ certificado['algoritmo'] }} - {{ certificado['tamanhollave'] }}</td>
-                                            <td>{{ certificado['uso_de_llave'] }}</td>
-                                            <td>{{ certificado['sha1'] }}</td>
-                                            <td>{{ certificado['serial'] }}</td>
-                                            
-                                        </tr>
-                                        {%endfor%}
-                                    </tbody>
-                                </table>
+                        <div class="modal" id="myModal" role="dialog">
+                            <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                <h4 class="modal-title">Informacion de {{ url }}</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        
                                 </div>
+                                <div class="modal-body">
+                                
+                                <div class="form-row">
+                                    
+                                    <div class="container">
+                                    <table class="table">
+                                        <thead class="thead-dark">
+                                        <tr>
+                                            <th scope="col">Nombre</th>
+                                            <th scope="col">Validez</th>
+                                            <th scope="col">Llave Pública</th>
+                                            <th scope="col">Usos de la llave</th>
+                                            <th scope="col">SHA-1</th>
+                                            <th scope="col">Serial Number</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for certificado in x['cadena']%}
+                                            <tr class="text-break">
+                                                
+                                                <td>{{ certificado['name'] }}</td>
+                                                <td>{{ certificado['desde'] }}- {{ certificado['hasta'] }}</td>
+                                                <td>{{ certificado['algoritmo'] }} - {{ certificado['tamanhollave'] }}</td>
+                                                <td>{{ certificado['uso_de_llave'] }}</td>
+                                                <td>{{ certificado['sha1'] }}</td>
+                                                <td>{{ certificado['serial'] }}</td>
+                                                
+                                            </tr>
+                                            {%endfor%}
+                                        </tbody>
+                                    </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
+                                </div>
+                        
                             </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            </div>
-                            </div>
-                    
                         </div>
-                    </div>
-                    </div>
-                {%endfor%}
+                        </div>
+                    {%endfor%}
 
                 <div class="col-12 mt-5 mb-5">
                     <a href="{{url_for('signout')}}" class="btn btn-primary btn-md">Limpiar todo</a>

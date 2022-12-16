@@ -37,14 +37,15 @@
                     
                 
                 </th>
+                
                 <th scope="col" style="min-width: 200px;">
                 
-                    <h5 class="fw-bold text-decoration-underline">Periodos de validez</h5>
-                
-                 </th>
+                    <h5 class="fw-bold text-decoration-underline">CD Mas nuevos</h5>
+                    
+                </th>
                 <th scope="col" style="min-width: 200px;">
                 
-                    <h5 class="fw-bold text-decoration-underline">CD</h5>
+                    <h5 class="fw-bold text-decoration-underline">CD Mas longevos</h5>
                     
                  </th>
             
@@ -67,8 +68,22 @@
                             {{tamllaves.append(certificate.public_key.bit_size)|default("", True)}}
                             {%endfor%}     
                             {{ tamllaves|unique|list}}</td>
-                        <td ></td>
-                        <td ></td>
+                        
+                        <td >
+                            {%for x in cd_nuevos %}
+                            {{x[0]|string }} -
+                            {{x[1]}}
+                            <br/>
+                            <br/>
+                            {%endfor%}
+                            </td>
+                        <td >
+                            {%for x in cd_longevos %}
+                            {{x}}
+                            <br/>
+                            <br/>
+                            {%endfor%}
+                            </td>
                         
                         
                     </tr>

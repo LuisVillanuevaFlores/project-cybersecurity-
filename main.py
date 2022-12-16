@@ -19,6 +19,7 @@ from wtforms import SubmitField
 from wtforms.fields import FileField
 from wtforms.fields import SubmitField
 from wtforms.fields import URLField
+from datetime import date,datetime,time,timedelta
 
 CERTIFICATES = {}
 
@@ -147,6 +148,28 @@ def load_certificates():
         'has_certificates': True,
     })
 
+def sort_certificates_last_five(certificates):
+    nuevos = []
+    for certificate in certificates:
+        nuevos.append((certificate.not_valid_before.date(), certificate.subject.human_friendly.replace('; ', ', ').split(",",1)[0]))
+    nuevos.sort()
+    print(nuevos[-5:])
+    return nuevos[-5:]
+
+def sort_certificates_most_aged(certificates):
+    certificados_longevos = []
+    for certificate in certificates:
+        x=certificate.not_valid_after.date() - certificate.not_valid_before.date()
+        print(type(x))
+        certificados_longevos.append((f'{x.days//365} Años' , certificate.subject.human_friendly.replace('; ', ', ').split(",",1)[0]))
+    certificados_longevos.sort()
+
+
+
+    
+    print(certificados_longevos[-5:])
+    return certificados_longevos[-5:]
+
 
 @app.route('/index2')
 def signout():
@@ -161,7 +184,10 @@ def show_trusts(navegator):
         c = CERTIFICATES.get('chrome_certificates')
     else:
         c = CERTIFICATES.get('edge_certificates')
-    return render_template('show_trust_by_navegator.html', navegator=navegator, c = c)
+
+    cd_nuevos = sort_certificates_last_five(c)
+    cd_longevos = sort_certificates_most_aged(c)
+    return render_template('show_trust_by_navegator.html', navegator=navegator, c = c, cd_nuevos=cd_nuevos,cd_longevos=cd_longevos)
 
 
 @app.route('/', methods=['GET', 'POST'])
