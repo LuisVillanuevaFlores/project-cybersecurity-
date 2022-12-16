@@ -64,102 +64,94 @@
                         <img src='/static/images/mozilla.png' width="20" height="20" />
                     </div>
                 </div>
-                {% for url in urls%}
-                {%set x=get_relevant(url)%}
-                <div class="row mt-3">
-                    <div class="col-lg-3"><span class="fw-bold text-decoration-underline" >{{url}}</span></div>
-                    <div class="col-lg-3" style="display:inline-block;vertical-align:top;">
-                        
-                        
-                        {%if x['edge_trust_level']==1%}
-                            <img src='/static/images/1Chrome.png' width="30" height="20" />
-                        {% elif x['edge_trust_level']==2 %}   
-                            <img src='/static/images/2edge.jpg' width="30" height="20" />
-                        {% else %}    
-                            <img src='/static/images/3edge.png' width="30" height="20" />
-                        {%endif%}
-                        
+                <div class="container">
+                    {% for url in urls%}
+                    {%set x=get_relevant(url)%}
+                    <div class="row mt-3">
+                        <div class="col-lg-3"><span class="fw-bold text-decoration-underline" >{{url}}</span></div>
+                        <div class="col-lg-3" style="display:inline-block;vertical-align:top;">
+                            {%if x['edge_trust_level']==1%}
+                                <img src='/static/images/1Chrome.png' width="30" height="20" />
+                            {% elif x['edge_trust_level']==2 %}
+                                <img src='/static/images/2edge.jpg' width="30" height="20" />
+                            {% else %}
+                                <img src='/static/images/3edge.png' width="30" height="20" />
+                            {%endif%}
+                        </div>
+                        <div class="col-lg-3">
+                            {%if x['chrome_trust_level']==1%}
+                                <img src='/static/images/1Chrome.png' width="30" height="20" />
+                            {% elif x['chrome_trust_level']==2 %}
+                                <img src='/static/images/2Chrome.png' width="30" height="20" />
+                            {% else %}
+                                <img src='/static/images/3CHrome.png' width="30" height="20" />
+                            {%endif%}
+                        </div>
+                        <div class="col-lg-3">
+                            {%if x['mozilla_trust_level']==1%}
+                                <img src='/static/images/1Mozzila.png' width="30" height="20" />
+                            {% elif x['mozilla_trust_level']==3 %}
+                                <img src='/static/images/2Mozzila.png' width="30" height="20" />
+                            {% else %}
+                                <img src='/static/images/3Mozzila.png' width="30" height="20" />
+                            {%endif%}
+                        </div>
+                </div>
+                <div class="container">
+                    <div class="row mt-3">
+                        <button type="button" class="col-lg-3 btn btn-primary" data-toggle="modal" data-target="#myModal">Ver cadena de certificación</button>
                     </div>
-                    <div class="col-lg-3"> 
-                        
-                        {%if x['chrome_trust_level']==1%}
-                            <img src='/static/images/1Chrome.png' width="30" height="20" />
-                        {% elif x['chrome_trust_level']==2 %}   
-                            <img src='/static/images/2Chrome.png' width="30" height="20" />
-                        {% else %}    
-                            <img src='/static/images/3CHrome.png' width="30" height="20" />
-                        {%endif%}
-                        
-                    </div>
-                    <div class="col-lg-3">
-                        
-                        {%if x['mozilla_trust_level']==1%}
-                            <img src='/static/images/1Mozzila.png' width="30" height="20" />
-                        {% elif x['mozilla_trust_level']==3 %}   
-                            <img src='/static/images/2Mozzila.png' width="30" height="20" />
-                        {% else %}    
-                            <img src='/static/images/3Mozzila.png' width="30" height="20" />
-                        {%endif%}
-                            
-                        
-                       
-                        
-                    </div>
-                
-                
-                <div class="col-lg-3">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Ver cadena de certificación</button>
                 </div>
 
-                    <div class="modal" id="myModal" role="dialog">
-                        <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                            <h4 class="modal-title">Informacion de {{ url }}</h4>
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    
-                            </div>
-                            <div class="modal-body">
-                            
-                            <div class="form-row">
-                                
-                                <div class="container">
-                                <table class="table">
-                                    <thead class="thead-dark">
-                                    <tr>
-                                        <th scope="col">Nombre</th>
-                                        <th scope="col">Validez</th>
-                                        <th scope="col">Llave Pública</th>
-                                        <th scope="col">Usos de la llave</th>
-                                        <th scope="col">SHA-1</th>
-                                        <th scope="col">Serial Number</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for certificado in x['cadena']%}
-                                        <tr class="text-break">
-                                            
-                                            <td>{{ certificado['name'] }}</td>
-                                            <td>{{ certificado['desde'] }}- {{ certificado['hasta'] }}</td>
-                                            <td>{{ certificado['algoritmo'] }} - {{ certificado['tamanhollave'] }}</td>
-                                            <td>{{ certificado['uso_de_llave'] }}</td>
-                                            <td>{{ certificado['sha1'] }}</td>
-                                            <td>{{ certificado['serial'] }}</td>
-                                            
-                                        </tr>
-                                        {%endfor%}
-                                    </tbody>
-                                </table>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                            </div>
-                            </div>
-                    
+                <div class="modal" id="myModal" role="dialog">
+                    <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                        <h4 class="modal-title">Informacion de {{ url }}</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                
                         </div>
+                        <div class="modal-body">
+                        
+                        <div class="form-row">
+                            
+                            <div class="container">
+                            <table class="table">
+                                <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Nombre</th>
+                                    <th scope="col">Validez</th>
+                                    <th scope="col">Llave Pública</th>
+                                    <th scope="col">Usos de la llave</th>
+                                    <th scope="col">SHA-1</th>
+                                    <th scope="col">Serial Number</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                    {% for certificado in x['cadena']%}
+                                    <tr class="text-break">
+                                        
+                                        <td>{{ certificado['name'] }}</td>
+                                        <td>{{ certificado['desde'] }}- {{ certificado['hasta'] }}</td>
+                                        <td>{{ certificado['algoritmo'] }} - {{ certificado['tamanhollave'] }}</td>
+                                        <td>{{ certificado['uso_de_llave'] }}</td>
+                                        <td>{{ certificado['sha1'] }}</td>
+                                        <td>{{ certificado['serial'] }}</td>
+                                        
+                                    </tr>
+                                    {%endfor%}
+                                </tbody>
+                            </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                        </div>
+                
                     </div>
-                    </div>
+                </div>
+                </div>
                 {%endfor%}
 
                 <div class="col-12 mt-5 mb-5">
