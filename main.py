@@ -40,7 +40,6 @@ def verified_https(url):
     url_pattern = "^(http|https):\\/\\/(?:www\\.)?[-a-zA-Z0-9@:%._\\+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b(?:[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*)$"
     match = re.match(url_pattern, url)
     if match:
-        print(match)
         return match
     else:
         flash(f'La URL {url} no es de un sitio válido')
@@ -113,7 +112,6 @@ def get_relevant_certificate_data(url):
                     'edge_trust_level': 1 if 'https:' in url else 2
             })
     certificate_data['name'] = root_certificate.subject.human_friendly
-    print(certificate_data)
     return certificate_data
 
 def validate_file(file):
@@ -156,21 +154,16 @@ def sort_certificates_last_five(certificates):
     for certificate in certificates:
         nuevos.append((certificate.not_valid_before.date(), certificate.subject.human_friendly.replace('; ', ', ').split(",",1)[0]))
     nuevos.sort()
-    print(nuevos[-5:])
     return nuevos[-5:]
 
 def sort_certificates_most_aged(certificates):
     certificados_longevos = []
     for certificate in certificates:
         x=certificate.not_valid_after.date() - certificate.not_valid_before.date()
-        print(type(x))
         certificados_longevos.append((f'{x.days//365} Años' , certificate.subject.human_friendly.replace('; ', ', ').split(",",1)[0]))
     certificados_longevos.sort()
 
 
-
-    
-    print(certificados_longevos[-5:])
     return certificados_longevos[-5:]
 
 
