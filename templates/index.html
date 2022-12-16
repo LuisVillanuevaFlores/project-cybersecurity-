@@ -73,29 +73,29 @@
                         <div class="col-lg-3"><span class="text-break fw-bold text-decoration-underline" >{{url}}</span></div>
                         <div class="col-lg-3" style="display:inline-block;vertical-align:top;">
                             {%if x['edge_trust_level']==1%}
-                                <img src='/static/images/1Chrome.png' width="30" height="20" />
+                                <img src='/static/images/1Chrome.png' height="100%"  />
                             {% elif x['edge_trust_level']==2 %}
-                                <img src='/static/images/2edge.jpg' width="120" height="20" />
+                                <img src='/static/images/2edge.jpg' width="100%"  />
                             {% else %}
-                                <img src='/static/images/3edge.png' width="120" height="20" />
+                                <img src='/static/images/3edge.png' width="100%"  />
                             {%endif%}
                         </div>
                         <div class="col-lg-3">
                             {%if x['chrome_trust_level']==1%}
-                                <img src='/static/images/1Chrome.png' width="30" height="20" />
+                                <img src='/static/images/1Chrome.png' height="100%"  />
                             {% elif x['chrome_trust_level']==2 %}
-                                <img src='/static/images/2Chrome.png' width="30" height="20" />
+                                <img src='/static/images/2Chrome.png' height="100%"  />
                             {% else %}
-                                <img src='/static/images/3CHrome.png' width="30" height="20" />
+                                <img src='/static/images/3CHrome.png' width="25%"  />
                             {%endif%}
                         </div>
                         <div class="col-lg-3">
                             {%if x['mozilla_trust_level']==1%}
-                                <img src='/static/images/1Mozzila.png' width="30" height="20" />
+                                <img src='/static/images/1Mozzila.png' height="100%"  />
                             {% elif x['mozilla_trust_level']==3 %}
-                                <img src='/static/images/2Mozzila.png' width="30" height="20" />
+                                <img src='/static/images/2Mozzila.png' height="100%"  />
                             {% else %}
-                                <img src='/static/images/3Mozzila.png' width="30" height="20" />
+                                <img src='/static/images/3Mozzila.png' height="100%"  />
                             {%endif%}
                         </div>
                 </div>
