@@ -56,9 +56,9 @@ def get_relevant_certificate_data(url):
         in_mozilla=False,
         in_chrome=False,
         in_edge=False,
-        mozilla_trust_level=1,
-        chrome_trust_level=1,
-        edge_trust_level=1,
+        mozilla_trust_level=3,
+        chrome_trust_level=3,
+        edge_trust_level=3
     )
 
     validator = CertificateValidator(connection.certificate, connection.intermediates)
@@ -70,22 +70,46 @@ def get_relevant_certificate_data(url):
         return certificate_data
     root_certificate = certification_chain[0]
 
+    cadena_de_certificacion = []
+
+    for certificate in certification_chain:
+        cadena_de_certificacion.append({
+            'name': certificate.subject.human_friendly.replace('; ', ', ').split(",",1)[0],
+            'desde': certificate.not_valid_before.date(),
+            'hasta': certificate.not_valid_after.date(),
+            'algoritmo': certificate.public_key.algorithm.upper(),
+            'tamanhollave': certificate.public_key.bit_size,
+            'uso_de_llave': certificate.key_usage_value.native,
+            'sha1': certificate.sha1_fingerprint,
+            'serial': certificate.serial_number
+        })
+    certificate_data.update({
+        'cadena': cadena_de_certificacion
+    })
+
     for mozilla_certificate in CERTIFICATES.get('mozilla_certificates'):
         if mozilla_certificate.key_identifier_value == root_certificate.key_identifier_value:
             certificate_data.update({
-                'in_mozilla': True
+                'in_mozilla': True, 
+                'mozilla_trust_level': 1 if 'https:' in url else 2
+                
             })
+        
     for chrome_certificate in CERTIFICATES.get('chrome_certificates'):
         if chrome_certificate.key_identifier_value == root_certificate.key_identifier_value:
+           
             certificate_data.update({
-                'in_chrome': True
+                'in_chrome': True,
+                'chrome_trust_level': 1 if 'https:' in url else 2
             })
     for edge_certificate in CERTIFICATES.get('edge_certificates'):
         if edge_certificate.key_identifier_value == root_certificate.key_identifier_value:
             certificate_data.update({
-                'in_edge': True
+                    'in_edge': True,
+                    'edge_trust_level': 1 if 'https:' in url else 2
             })
     certificate_data['name'] = root_certificate.subject.human_friendly
+    print(certificate_data)
     return certificate_data
 
 def validate_file(file):
@@ -122,6 +146,7 @@ def load_certificates():
         'edge_certificates': file_to_certificate_object_list('edge_certificates.txt'),
         'has_certificates': True,
     })
+
 
 @app.route('/index2')
 def signout():

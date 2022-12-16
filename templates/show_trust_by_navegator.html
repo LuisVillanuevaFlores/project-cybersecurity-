@@ -13,6 +13,74 @@
     <div class="container text-center mt-5">
         <div class="row">
             <div class="col-12">
+                <h1> {{navegator.capitalize()}} Statistics</h1>
+            </div>
+        </div>
+        <div class="table table-responsive mt-3">
+            <table class="table table-responsive table-bordered table-fixed">
+                <thead>
+                <tr >
+                <th scope="col" style="min-width: 200px;">
+                
+                    <h5 class="fw-bold text-decoration-underline">Total de certificados</h5>
+                
+                </th>
+                <th scope="col" style="min-width: 200px;">
+                
+                    <h5 class="fw-bold text-decoration-underline">Tipos de llaves</h5>
+                    
+                
+                </th>
+                <th scope="col" style="min-width: 200px;">
+                
+                    <h5 class="fw-bold text-decoration-underline">Tamaño de llaves</h5>
+                    
+                
+                </th>
+                <th scope="col" style="min-width: 200px;">
+                
+                    <h5 class="fw-bold text-decoration-underline">Periodos de validez</h5>
+                
+                 </th>
+                <th scope="col" style="min-width: 200px;">
+                
+                    <h5 class="fw-bold text-decoration-underline">CD</h5>
+                    
+                 </th>
+            
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        
+                        <th scope="row">{{c|length}}</th>
+                        <td >
+                            {% set algoritmos = [] %}
+                            {%for certificate in c %}
+                            {{algoritmos.append(certificate.public_key.algorithm.upper())|default("", True)}}
+                            {%endfor%}
+                            {{ algoritmos|unique|list }}</td>
+
+                        <td >
+                            {% set tamllaves = []%}
+                            {%for certificate in c %}
+                            {{tamllaves.append(certificate.public_key.bit_size)|default("", True)}}
+                            {%endfor%}     
+                            {{ tamllaves|unique|list}}</td>
+                        <td ></td>
+                        <td ></td>
+                        
+                        
+                    </tr>
+                    
+                </tbody>
+
+            </table>
+
+    </div>
+    <div class="container text-center mt-5">
+        <div class="row">
+            <div class="col-12">
                 <h1> {{navegator.capitalize()}} Trust Store Certificate</h1>
             </div>
         </div>
