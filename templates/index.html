@@ -12,6 +12,11 @@
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
     <div class="container text-center mt-5">
@@ -62,17 +67,17 @@
                     </div>
                 </div>
                 <div class="container">
-                    {% for url in urls%}
+                    {% for i, url in enumerate(urls)%}
                     {%set x=get_relevant(url)%}
                     <div class="row mt-3">
-                        <div class="col-lg-3"><span class="fw-bold text-decoration-underline" >{{url}}</span></div>
+                        <div class="col-lg-3"><span class="text-break fw-bold text-decoration-underline" >{{url}}</span></div>
                         <div class="col-lg-3" style="display:inline-block;vertical-align:top;">
                             {%if x['edge_trust_level']==1%}
                                 <img src='/static/images/1Chrome.png' width="30" height="20" />
                             {% elif x['edge_trust_level']==2 %}
-                                <img src='/static/images/2edge.jpg' width="30" height="20" />
+                                <img src='/static/images/2edge.jpg' width="120" height="20" />
                             {% else %}
-                                <img src='/static/images/3edge.png' width="30" height="20" />
+                                <img src='/static/images/3edge.png' width="120" height="20" />
                             {%endif%}
                         </div>
                         <div class="col-lg-3">
@@ -96,11 +101,11 @@
                 </div>
                 <div class="container">
                     <div class="row mt-3">
-                        <button type="button" class="col-lg-3 btn btn-primary" data-toggle="modal" data-target="#myModal">Ver cadena de certificación</button>
+                        <button type="button" class="col-lg-3 btn btn-primary" data-toggle="modal" data-target="#myModal{{i}}">Ver cadena de certificación</button>
                     </div>
                 </div>
 
-                <div class="modal" id="myModal" role="dialog">
+                <div class="modal" id="myModal{{i}}" role="dialog">
                     <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">

@@ -68,6 +68,9 @@ def get_relevant_certificate_data(url):
         certification_chain = validator.validate_tls(connection.hostname)
     except Exception as e:
         flash(f'No se encontró un certificado válido para la url: {url}, revisarla')
+        certificate_data.update({
+            'cadena': []
+        })
         return certificate_data
     root_certificate = certification_chain[0]
 
@@ -213,6 +216,7 @@ def index():
 
 
 app.jinja_env.globals.update(get_relevant=get_relevant_certificate_data)
+app.jinja_env.globals.update(enumerate = enumerate)
 app.config['WTF_CSRF_ENABLED']= False
 app.config['SESSION_TYPE'] = 'filesystem'
 app.config['SECRET_KEY']='KEY_SECRET'
